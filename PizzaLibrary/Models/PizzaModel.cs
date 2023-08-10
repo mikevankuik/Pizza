@@ -1,4 +1,4 @@
-﻿namespace PizzaPricingCalculator.Models;
+﻿namespace PizzaLibrary.Models;
 public class PizzaModel
 {
     public int Number { get; set; }

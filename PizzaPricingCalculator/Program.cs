@@ -1,5 +1,5 @@
-﻿using PizzaPricingCalculator.Models;
-using PizzaPricingCalculator.Helpers;
+﻿using PizzaLibrary.Models;
+using PizzaLibrary.Helpers;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 

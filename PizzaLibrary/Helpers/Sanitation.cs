@@ -1,4 +1,4 @@
-﻿namespace PizzaPricingCalculator.Helpers;
+﻿namespace PizzaLibrary.Helpers;
 
 public static class Sanitation
 {
