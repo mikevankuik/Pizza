@@ -2,10 +2,10 @@
 
 public static class Calculatons
 {
-    public static double Surface(double radius)
+    public static double Surface(double diameter)
     {
-        double something = (radius / 2);
-        return  Math.PI * (something*something);
+        double radius = (diameter / 2);
+        return  Math.PI * (radius*radius);
     }
 
     public static decimal PricePerSquareArea(decimal price, decimal surface)

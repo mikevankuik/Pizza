@@ -6,4 +6,8 @@ public static class Sanitation
     {
         return input.Replace(".", ",");
     }
+    public static string ReplaceCommaWithDot(string input)
+    {
+        return input.Replace(",", ".");
+    }
 }

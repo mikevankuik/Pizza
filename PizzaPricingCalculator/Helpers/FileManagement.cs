@@ -1,5 +1,5 @@
 ﻿using PizzaLibrary.Helpers;
-using System.Security;
+using PizzaLibrary.Models;
 
 namespace PizzaPricingCalculator.Helpers
 {
@@ -12,12 +12,12 @@ namespace PizzaPricingCalculator.Helpers
                 defaultPath = @"config.ini";
             }
 
-            if (File.Exists(defaultPath)) 
+            if (File.Exists(defaultPath))
             {
                 var result = File.ReadAllLines(defaultPath);
                 return result;
             }
-            else 
+            else
             {
                 string? metericType = Questionnaire.Question("Will you be using the metic or the imperial system? (M for Meteric I for Imperial)", "M");
                 string metric = metericType == "I" ? "Inch" : "CM";
@@ -37,11 +37,49 @@ namespace PizzaPricingCalculator.Helpers
                 Console.WriteLine($"{currency} will be used");
 
                 string[] config = { metric, currency };
-                File.WriteAllLines(defaultPath, config );
+                File.WriteAllLines(defaultPath, config);
 
                 string[] result = { metric, currency };
-                return result ; 
+                return result;
             }
+        }
+
+        public static List<PizzaModel> GetPizzaList(string? defaultPath)
+        {
+            List<PizzaModel> result = new();
+            if (File.Exists(defaultPath))
+            {
+                string getPizzaList = Questionnaire.Question("Would you like to add a pizza list file? (Y/N)", "N");
+                getPizzaList = getPizzaList.ToUpper();
+                if (getPizzaList == "Y")
+                {
+                    var lines = File.ReadAllLines(defaultPath).ToList();
+                    foreach (var line in lines)
+                    {
+                        var record = line.Split(';');
+                        _ = double.TryParse(record[0], out double diameter);
+                        
+                        _ = decimal.TryParse(Sanitation.ReplaceCommaWithDot(record[1]), out decimal price);
+
+                        string surfaceCalculation = Calculatons.Surface(diameter).ToString();
+                        _ = decimal.TryParse(surfaceCalculation, out decimal surface);
+                        Calculatons.PricePerSquareArea(price, surface);
+                        result.Add(
+                            new PizzaModel()
+                            {
+                                Diameter = diameter
+                                ,
+                                Price = price
+                                ,
+                                Surface = surface
+                                ,
+                                PPSA = Calculatons.PricePerSquareArea(price, surface)
+
+                            }); 
+                    }
+                }
+            }
+            return result;
         }
     }
 }
